@@ -706,3 +706,27 @@ namespace nanolog
     }
 
 } // namespace nanologger
+
+
+// CCallStackLogger class implementation
+std::random_device CNanoCallStackLogger::m_rndDev;
+std::mt19937 CNanoCallStackLogger::m_rndGen(m_rndDev());
+
+CNanoCallStackLogger::CNanoCallStackLogger(const std::string& sFile, const std::string& sFunc, uint32_t nLine) :
+	m_sFile(sFile),
+	m_sFunc(sFunc),
+	m_nLine(nLine),
+	m_nRnd(m_rndGen())
+{
+
+	nanolog::is_logged(nanolog::LogLevel::INFO) &&
+		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::INFO, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
+		<< "Entering [" << m_nRnd << "]...";
+}
+
+CNanoCallStackLogger::~CNanoCallStackLogger()
+{
+	nanolog::is_logged(nanolog::LogLevel::INFO) &&
+		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::INFO, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
+		<< "Leaving [" << m_nRnd << "]...";
+}

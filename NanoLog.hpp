@@ -23,14 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 */
 
-#ifndef NANO_LOG_HEADER_GUARD
-#define NANO_LOG_HEADER_GUARD
+#pragma once
 
 #include <cstdint>
 #include <memory>
 #include <string>
 #include <iosfwd>
 #include <type_traits>
+#include <random>
 
 namespace nanolog
 {
@@ -162,5 +162,21 @@ namespace nanolog
 #define LOG_WARN nanolog::is_logged(nanolog::LogLevel::WARN) && NANO_LOG(nanolog::LogLevel::WARN)
 #define LOG_CRIT nanolog::is_logged(nanolog::LogLevel::CRIT) && NANO_LOG(nanolog::LogLevel::CRIT)
 
-#endif /* NANO_LOG_HEADER_GUARD */
+class CNanoCallStackLogger
+{
+public:
+	CNanoCallStackLogger(const std::string& sFile, const std::string& sFunc, uint32_t nLine);
+	~CNanoCallStackLogger();
+
+protected:
+	static std::random_device m_rndDev;
+	static std::mt19937 m_rndGen;
+	unsigned int m_nRnd;
+	std::string m_sFile;
+	std::string m_sFunc;
+	uint32_t m_nLine;
+};
+
+#define CALLSTACK_LOGGER() CNanoCallStackLogger _callstackLogger(__FILE__, __func__, __LINE__);
+//#define CALLSTACK_LOGGER() LOG_INFO() << __FILE__ << __func__ << __LINE__;
 
