@@ -89,10 +89,14 @@ namespace nanolog
     {
 	switch (loglevel)
 	{
+	case LogLevel::DEBUG:
+		return "DEBUG";
 	case LogLevel::INFO:
 	    return "INFO";
 	case LogLevel::WARN:
 	    return "WARN";
+	case LogLevel::ERR:
+		return "ERR";
 	case LogLevel::CRIT:
 	    return "CRIT";
 	}
