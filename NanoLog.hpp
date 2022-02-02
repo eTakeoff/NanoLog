@@ -34,7 +34,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 namespace nanolog
 {
-    enum class LogLevel : uint8_t { INFO, WARN, CRIT };
+    enum class LogLevel : uint8_t { NANO_DEBUG, NANO_INFORMATION, NANO_WARNING, NANO_ERROR, NANO_CRITICAL };
     
     class NanoLogLine
     {
@@ -158,9 +158,11 @@ namespace nanolog
 } // namespace nanolog
 
 #define NANO_LOG(LEVEL) nanolog::NanoLog() == nanolog::NanoLogLine(LEVEL, __FILE__, __func__, __LINE__)
-#define LOG_INFO nanolog::is_logged(nanolog::LogLevel::INFO) && NANO_LOG(nanolog::LogLevel::INFO)
-#define LOG_WARN nanolog::is_logged(nanolog::LogLevel::WARN) && NANO_LOG(nanolog::LogLevel::WARN)
-#define LOG_CRIT nanolog::is_logged(nanolog::LogLevel::CRIT) && NANO_LOG(nanolog::LogLevel::CRIT)
+#define LOG_DEBUG() nanolog::is_logged(nanolog::LogLevel::NANO_DEBUG) && NANO_LOG(nanolog::LogLevel::NANO_DEBUG)
+#define LOG_INFO() nanolog::is_logged(nanolog::LogLevel::NANO_INFORMATION) && NANO_LOG(nanolog::LogLevel::NANO_INFORMATION)
+#define LOG_WARN() nanolog::is_logged(nanolog::LogLevel::NANO_WARNING) && NANO_LOG(nanolog::LogLevel::NANO_WARNING)
+#define LOG_ERROR() nanolog::is_logged(nanolog::LogLevel::ERROR) && NANO_LOG(nanolog::LogLevel::ERROR)
+#define LOG_CRIT() nanolog::is_logged(nanolog::LogLevel::NANO_CRITICAL) && NANO_LOG(nanolog::LogLevel::NANO_CRITICAL)
 
 class CNanoCallStackLogger
 {
@@ -177,6 +179,6 @@ protected:
 	uint32_t m_nLine;
 };
 
-#define CALLSTACK_LOGGER() CNanoCallStackLogger _callstackLogger(__FILE__, __func__, __LINE__);
+//#define CALLSTACK_LOGGER() CNanoCallStackLogger _callstackLogger(__FILE__, __func__, __LINE__);
 //#define CALLSTACK_LOGGER() LOG_INFO() << __FILE__ << __func__ << __LINE__;
-
+#define CALLSTACK_LOGGER() ;

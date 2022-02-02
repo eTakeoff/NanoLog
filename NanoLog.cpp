@@ -89,12 +89,16 @@ namespace nanolog
     {
 	switch (loglevel)
 	{
-	case LogLevel::INFO:
-	    return "INFO";
-	case LogLevel::WARN:
-	    return "WARN";
-	case LogLevel::CRIT:
-	    return "CRIT";
+	case LogLevel::NANO_DEBUG:
+		return "NANO_DEBUG";
+	case LogLevel::NANO_INFORMATION:
+	    return "NANO_INFORMATION";
+	case LogLevel::NANO_WARNING:
+	    return "NANO_WARNING";
+	case LogLevel::NANO_ERROR:
+		return "NANO_ERROR";
+	case LogLevel::NANO_CRITICAL:
+	    return "NANO_CRITICAL";
 	}
 	return "XXXX";
     }
@@ -149,7 +153,7 @@ namespace nanolog
 
 	os << std::endl;
 
-	if (loglevel >= LogLevel::CRIT)
+	if (loglevel >= LogLevel::NANO_CRITICAL)
 	    os.flush();
     }
 
@@ -348,7 +352,7 @@ namespace nanolog
 	    Item() 
 		: flag{ ATOMIC_FLAG_INIT }
 		, written(0)
-		, logline(LogLevel::INFO, nullptr, nullptr, 0)
+		, logline(LogLevel::NANO_INFORMATION, nullptr, nullptr, 0)
 	    {
 	    }
 	    
@@ -641,7 +645,7 @@ namespace nanolog
 	    while (m_state.load(std::memory_order_acquire) == State::INIT)
 		std::this_thread::sleep_for(std::chrono::microseconds(50));
 	    
-	    NanoLogLine logline(LogLevel::INFO, nullptr, nullptr, 0);
+	    NanoLogLine logline(LogLevel::NANO_INFORMATION, nullptr, nullptr, 0);
 
 	    while (m_state.load() == State::READY)
 	    {
@@ -719,14 +723,14 @@ CNanoCallStackLogger::CNanoCallStackLogger(const std::string& sFile, const std::
 	m_nRnd(m_rndGen())
 {
 
-	nanolog::is_logged(nanolog::LogLevel::INFO) &&
-		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::INFO, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
+	nanolog::is_logged(nanolog::LogLevel::NANO_INFORMATION) &&
+		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::NANO_INFORMATION, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
 		<< "Entering [" << m_nRnd << "]...";
 }
 
 CNanoCallStackLogger::~CNanoCallStackLogger()
 {
-	nanolog::is_logged(nanolog::LogLevel::INFO) &&
-		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::INFO, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
+	nanolog::is_logged(nanolog::LogLevel::NANO_INFORMATION) &&
+		nanolog::NanoLog() == nanolog::NanoLogLine(nanolog::LogLevel::NANO_INFORMATION, m_sFile.c_str(), m_sFunc.c_str(), m_nLine)
 		<< "Leaving [" << m_nRnd << "]...";
 }
