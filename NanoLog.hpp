@@ -161,7 +161,7 @@ namespace nanolog
 #define LOG_DEBUG() nanolog::is_logged(nanolog::LogLevel::NANO_DEBUG) && NANO_LOG(nanolog::LogLevel::NANO_DEBUG)
 #define LOG_INFO() nanolog::is_logged(nanolog::LogLevel::NANO_INFORMATION) && NANO_LOG(nanolog::LogLevel::NANO_INFORMATION)
 #define LOG_WARN() nanolog::is_logged(nanolog::LogLevel::NANO_WARNING) && NANO_LOG(nanolog::LogLevel::NANO_WARNING)
-#define LOG_ERROR() nanolog::is_logged(nanolog::LogLevel::ERROR) && NANO_LOG(nanolog::LogLevel::ERROR)
+#define LOG_ERROR() nanolog::is_logged(nanolog::LogLevel::NANO_ERROR) && NANO_LOG(nanolog::LogLevel::NANO_ERROR)
 #define LOG_CRIT() nanolog::is_logged(nanolog::LogLevel::NANO_CRITICAL) && NANO_LOG(nanolog::LogLevel::NANO_CRITICAL)
 
 class CNanoCallStackLogger
