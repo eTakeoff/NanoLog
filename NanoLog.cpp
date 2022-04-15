@@ -39,17 +39,17 @@ namespace
     /* Returns microseconds since epoch */
     uint64_t timestamp_now()
     {
-    	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
     /* I want [2016-10-13 00:01:23.528514] */
     void format_timestamp(std::ostream & os, uint64_t timestamp)
     {
 	// The next 3 lines do not work on MSVC!
-	// auto duration = std::chrono::microseconds(timestamp);
-	// std::chrono::high_resolution_clock::time_point time_point(duration);
-	// std::time_t time_t = std::chrono::high_resolution_clock::to_time_t(time_point);
-	std::time_t time_t = timestamp / 1000000;
+	auto duration = std::chrono::microseconds(timestamp);
+	std::chrono::system_clock::time_point time_point(duration);
+	std::time_t time_t = std::chrono::system_clock::to_time_t(time_point);
+	//std::time_t time_t = timestamp / 1000000;
 	auto gmtime = std::gmtime(&time_t);
 	char buffer[32];
 	strftime(buffer, 32, "%Y-%m-%d %T.", gmtime);
