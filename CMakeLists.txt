@@ -1,40 +1,21 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.10)
 
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../../CMake/Toolchain/)
-include(common)
+set(this_target NanoLog)
+project(${this_target})
 
-## start setting
-SET (this_target NanoLog)
-PROJECT(${this_target})
+set(HEADER_FILES
+	NanoLog.hpp
+)
 
+set(SOURCE_FILES
+	NanoLog.cpp
+)
 
-add_definitions(-DUNICODE -D_UNICODE)
+set_source_files_properties(HEADER_FILES PROPERTIES HEADER_FILE_ONLY TRUE)
 
+list(APPEND BUILD_FILES ${HEADER_FILES} ${SOURCE_FILES})
 
-## section: include directory
-INCLUDE_DIRECTORIES( ${INCLUDE_BASE}
-    )
-
-## section: source files
-# Add your source files here (one file per line), please SORT in alphabetical order for future maintenance
-SET (${this_target}_SOURCE_FILES
-    NanoLog.cpp
-    )
-
-## section: header files
-# Add your header files here(one file per line), please SORT in alphabetical order for future maintenance!
-SET(${this_target}_HEADER_FILES
-    NanoLog.hpp
-    )
-
-
-SET_SOURCE_FILES_PROPERTIES(${this_target}_HEADER_FILES
-                            PROPERTIES HEADER_FILE_ONLY TRUE)
-LIST(APPEND ${this_target}_SOURCE_FILES ${${this_target}_HEADER_FILES})
-
-
-## section: add target
-
-ADD_LIBRARY(${this_target} STATIC ${${this_target}_SOURCE_FILES} )
+add_library(${this_target} STATIC ${BUILD_FILES})
 
 set_target_properties(${this_target} PROPERTIES FOLDER Libraries)
+
